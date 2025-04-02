@@ -1,0 +1,69 @@
+en 
+conf t
+vlan 10
+ex
+
+int fa0/1
+switchport mode access
+switchport access vlan 10
+ex
+
+int fa0/3
+switchport mode trunk
+ex
+
+do wr
+
+=======================
+en 
+conf t
+vlan 20
+ex
+
+int fa0/2
+switchport mode access
+switchport access vlan 20
+ex
+
+int fa0/4
+switchport mode trunk
+ex
+
+do wr
+
+========================
+en
+conf t
+int range gig1/0/2-4
+switchport mode trunk
+ex
+
+vlan 10
+vlan 20
+ex
+
+int vlan 10
+ip add 192.168.1.1 255.255.255.0
+no sh
+ex
+
+int vlan 20
+ip add 192.168.2.1 255.255.255.0
+no sh
+ex
+
+service dhcp
+ip dhcp pool VLAN10
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 192.168.1.1
+ex
+
+ip dhcp pool VLAN20
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1
+dns-server 192.168.2.1
+ex
+
+ip routing
+do wr
